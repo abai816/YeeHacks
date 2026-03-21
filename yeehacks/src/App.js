@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import logo from "./tumbleweed.png";
 
 function App() {
   const [result, setResult] = useState(null);
@@ -124,15 +125,21 @@ Format clearly with labels.
         }}
       />
 
-      {loading && <p>Detecting and generating lesson plan...</p>}
-
+      {/* Loading overlay with rotating image */}
+      {loading && (
+        <div className="loading-overlay">
+          <img src={logo} alt="Loading..." className="spinner" />
+          <p>Howdy!</p>
+        </div>
+      )}
+ 
       {result && (
         <div>
           <p>Detected: {result.class}</p>
           <p>Confidence: {result.confidence}%</p>
         </div>
       )}
-
+ 
       {lessonPlan && (
         <div>
           <h2>Lesson Plan</h2>
