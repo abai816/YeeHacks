@@ -20,10 +20,17 @@ function App() {
   const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState(null);
   const [lessonPlan, setLessonPlan] = useState("");
+  const [parsedLesson, setParsedLesson] = useState("");
   const [lessonType, setLessonType] = useState("");
   const [detecting, setDetecting] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
+
+  const lessonHeadingMap = {
+    diy: "DIY Project",
+    science: "Science Lesson",
+    history: "History Lesson",
+  };
 
   const detectTrash = async () => {
     if (!selectedFile) {
@@ -67,6 +74,59 @@ function App() {
     }
   };
 
+  const parseLessonPlan = (text) => {
+    const parsed = {
+      pageTitle: "",
+      theme: "",
+      about: "",
+      whyItMatters: "",
+      materials: [],
+      steps: [],
+      funFact: "",
+    };
+
+    const lines = text
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    let currentSection = "";
+
+    for (const line of lines){
+      if (line.startsWith("PAGE_TITLE:")) {
+        parsed.pageTitle = line.replace("PAGE_TITLE:", "").trim();
+        currentSection = "";
+      } else if (line.startsWith("THEME:")) {
+        parsed.theme = line.replace("THEME:", "").trim();
+        currentSection = "";
+      } else if (line.startsWith("ABOUT:")) {
+        parsed.about = line.replace("ABOUT:", "").trim();
+        currentSection = "";
+      } else if (line.startsWith("WHY_IT_MATTERS:")) {
+        parsed.whyItMatters = line.replace("WHY_IT_MATTERS:", "").trim();
+        currentSection = "";
+      } else if (line.startsWith("MATERIALS:")) {
+        currentSection = "materials";
+      } else if (line.startsWith("STEPS:")) {
+        currentSection = "steps";
+      } else if (line.startsWith("FUN_FACT:")) {
+        parsed.funFact = line.replace("FUN_FACT:", "").trim();
+        currentSection = "";
+      } else if (currentSection === "materials" && line.startsWith("-")) {
+        parsed.materials.push(line.replace("-", "").trim());
+      } else if (currentSection === "steps" && /^\d+\./.test(line)) {
+        parsed.steps.push(line.replace(/^\d+\.\s*/, "").trim());
+      } else if (currentSection === "about") {
+        parsed.about += ` ${line}`;
+      } else if (currentSection === "why") {
+        parsed.whyItMatters += ` ${line}`;
+      }
+    }
+
+    return parsed;
+
+  }
+
   const getGeminiIdeas = async (trashClass, chosenType) => {
     const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
 
@@ -87,25 +147,31 @@ A student found a discarded ${trashClass}.
 
 Create a ${themeMap[chosenType]} about this object.
 
-Requirements:
-- Match the lesson specifically to a ${chosenType} theme
-- Give it a creative title
-- Briefly explain what the object is
-- Explain why reusing or recycling it matters
-- List materials needed
-- Provide 3 to 5 clear steps
-- Include one fun fact
-- Keep the tone fun, kid-friendly, and educational
+Important formatting rules:
+- Do NOT use markdown
+- Do NOT use asterisks
+- Do NOT bold anything
+- Write in plain text only
+- Put each section on its own line
+- Use this exact format:
 
-Format exactly like this:
+PAGE_TITLE: creative title (e.g. “Hanging Bird Feeder – Upcycling for Greener Garden”)
+THEME: a short theme label
+ABOUT: 2 to 4 sentences explaining the object
+WHY_IT_MATTERS: 2 to 4 sentences
+MATERIALS:
+- item 1
+- item 2
+- item 3
+STEPS:
+1. first step
+2. second step
+3. third step
+FUN_FACT: one short fun fact
 
-Title:
-Theme:
-About the object:
-Why it matters:
-Materials:
-Steps:
-Fun fact:
+Rules:
+- Keep it kid-friendly and educational
+- Make the theme creative and short
 `;
 
     const response = await fetch(
@@ -151,11 +217,15 @@ Fun fact:
     setGenerating(true);
     setError("");
     setLessonPlan("");
+    setParsedLesson(null);
     setLessonType(type);
 
     try {
       const generatedLesson = await getGeminiIdeas(result.class, type);
+      const parsed = parseLessonPlan(generatedLesson);
+
       setLessonPlan(generatedLesson);
+      setParsedLesson(parsed);
       setPage("lesson");
     } catch (err) {
       console.error(err);
@@ -173,27 +243,24 @@ Fun fact:
     setImagePreview(URL.createObjectURL(file));
     setResult(null);
     setLessonPlan("");
+    setParsedLesson(null);
     setError("");
   };
-
-  const lessonHeadingMap = {
-    diy: "DIY Project",
-    science: "Science Lesson",
-    history: "History Lesson",
-  };
-
-  if (page === "lesson") {
+ if (page === "lesson") {
     return (
       <div className="app page-bg">
-        <img src={bootImg} alt="" className="decor boot" />
+        <img src={lassoImg} alt="" className="decor rope" />
         <div className="decor star star-one">✸</div>
+        <div className="decor star star-two">✸</div>
+        <img src={cactusImg} alt="" className="decor cactus" />
         <img src={flowerImg} alt="" className="decor flower" />
-        <img src={fatHorseImg} alt="" className="decor horse" />
+        <img src={skinnyHorseImg} alt="" className="decor horse" />
+        <img src={cowboyHatImg} alt="" className="hat" />
 
         <div className="lesson-page">
           <h1 className="title">Wild Lessons</h1>
           <p className="subtitle">
-            Your recyclable has been transformed into a learning adventure.
+            Your recyclable has been transformed into a learning adventure!
           </p>
 
           <div className="lesson-card">
@@ -202,14 +269,47 @@ Fun fact:
                 Detected: {result?.class || "Unknown object"}
               </span>
               <span className="lesson-type-pill">
-                {lessonHeadingMap[lessonType]}
+                {parsedLesson?.theme || lessonHeadingMap[lessonType]}
               </span>
             </div>
 
-            <h2 className="lesson-title">{lessonHeadingMap[lessonType]}</h2>
+            <h2 className="lesson-title">
+              {parsedLesson?.pageTitle || lessonHeadingMap[lessonType]}
+            </h2>
 
             <div className="lesson-output">
-              {lessonPlan || "No lesson generated yet."}
+              <p>
+                <span className="section-label">About the object:</span>{" "}
+                {parsedLesson?.about || ""}
+              </p>
+
+              <p>
+                <span className="section-label">Why it matters:</span>{" "}
+                {parsedLesson?.whyItMatters || ""}
+              </p>
+
+              <div className="lesson-section">
+                <div className="section-label">Materials:</div>
+                <ul className="lesson-list">
+                  {(parsedLesson?.materials || []).map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="lesson-section">
+                <div className="section-label">Steps:</div>
+                <ol className="lesson-list lesson-steps">
+                  {(parsedLesson?.steps || []).map((step, index) => (
+                    <li key={index}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+
+              <p>
+                <span className="section-label">Fun fact:</span>{" "}
+                {parsedLesson?.funFact || ""}
+              </p>
             </div>
 
             <div className="lesson-actions">
@@ -232,7 +332,6 @@ Fun fact:
 
   return (
     <div className="app page-bg">
-      <img src={bootImg} alt="" className="decor boot" />
       <img src={lassoImg} alt="" className="decor rope" />
       <div className="decor star star-one">✸</div>
       <div className="decor star star-two">✸</div>
@@ -251,7 +350,11 @@ Fun fact:
         <div className="main-layout">
           <div className="image-box">
             {imagePreview ? (
-              <img src={imagePreview} alt="Uploaded recyclable" className="preview-image" />
+              <img
+                src={imagePreview}
+                alt="Uploaded recyclable"
+                className="preview-image"
+              />
             ) : (
               <span className="image-placeholder">(image)</span>
             )}
