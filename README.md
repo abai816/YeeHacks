@@ -15,8 +15,8 @@ Generate a Gemini API key that can handle more requests. We are only working wit
 ## Accomplishments that we're proud of: ##
 We are proud to get more experience with working with APIs and creating React apps that work with Flask. 
 
-## What we learned:##
+## What we learned: ##
 We did not know that many ways to repurpose items before our application! We are excited to put these into practice in our regular day-to-day lives.
 
-## What's next for Wild Lessons:##
+## What's next for Wild Lessons: ##
 We would like implement a mobile application so that it is easier for users to capture & upload images directly through their phones, bringing creativity everywhere they go. 
