@@ -371,3 +371,36 @@ body {
     font-size: 38px;
   }
 }
+/* Tumbleweed loading overlay */
+.tumbleweed-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(234, 212, 220, 0.82);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 999;
+}
+
+.tumbleweed-overlay p {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2a2222;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.tumbleweed-spinner {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  animation: spin 1.2s linear infinite;
+}
