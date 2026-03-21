@@ -13,7 +13,7 @@ Our tech stack includes Python and React. We built a trash-detecting model using
 Generate a Gemini API key that can handle more requests. We are only working with the free tier key. 
 
 ## Accomplishments that we're proud of: ##
-We are proud to get more experience with working with APIs and creating React apps that work with Flask. 
+We are proud to get more experience with working with APIs and creating React apps that work with Flask. We are also proud of the stylish User Interface. We accomplished our goal of recreating a UI similar to the one we designed on Figma.
 
 ## What we learned: ##
 We did not know that many ways to repurpose items before our application! We are excited to put these into practice in our regular day-to-day lives.
