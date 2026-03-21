@@ -1,38 +1,341 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  background: #ead4dc;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.app {
   min-height: 100vh;
+  width: 100%;
+}
+
+.page-bg {
+  position: relative;
+  overflow: hidden;
+  background: #ead4dc;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+/* decorative elements */
+.decor {
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.boot {
+  top: 18px;
+  left: 28px;
+  font-size: 48px;
+}
+
+.rope {
+  top: 62px;
+  left: 86px;
+  font-size: 28px;
+  transform: rotate(20deg);
+}
+
+.star-one {
+  top: 300px;
+  left: 405px;
+  color: #d5a14a;
+  font-size: 28px;
+}
+
+.star-two {
+  top: 360px;
+  left: 20px;
+  color: #d5a14a;
+  font-size: 34px;
+}
+
+.cactus {
+  bottom: 22px;
+  left: 38px;
+  font-size: 58px;
+}
+
+.flower {
+  bottom: 40px;
+  left: 85px;
+  font-size: 22px;
+  color: #d57fa7;
+}
+
+.horse {
+  bottom: 16px;
+  right: 35px;
+  font-size: 72px;
+}
+
+.home-page,
+.lesson-page {
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 54px;
+  font-weight: 700;
+  margin: 10px 0 10px;
+  color: #1f1717;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  max-width: 460px;
+  margin: 0 auto 28px;
+  font-size: 24px;
+  line-height: 1.25;
+  color: #2a2222;
+}
+
+.main-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 38px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.image-box {
+  width: 300px;
+  height: 300px;
+  background: #ddd4d7;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  color: #2a2222;
+  font-size: 18px;
+}
+
+.controls-column {
   display: flex;
   flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.upload-btn,
+.detect-btn,
+.lesson-btn,
+.primary-btn,
+.secondary-btn {
+  border: 1.5px solid #5b4d31;
+  border-radius: 999px;
+  padding: 14px 24px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.upload-btn:hover,
+.detect-btn:hover,
+.lesson-btn:hover,
+.primary-btn:hover,
+.secondary-btn:hover {
+  transform: translateY(-1px);
+}
+
+.upload-btn {
+  background: #dfc27a;
+  color: #2a2222;
+  min-width: 132px;
+}
+
+.detect-btn {
+  background: #b5d6ab;
+  color: #1d241b;
+  min-width: 132px;
+}
+
+.detect-btn:disabled,
+.lesson-btn:disabled,
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.detected-box {
+  min-width: 165px;
+  min-height: 82px;
+  padding: 24px 20px;
+  border-radius: 18px;
+  background: #e8ada6;
+  color: #2a2222;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 32px;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
-.App-link {
-  color: #61dafb;
+.confidence-text {
+  margin-top: 18px;
+  color: #2a2222;
+  font-size: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.error-text {
+  margin-top: 16px;
+  color: #8b2d2d;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.lesson-buttons {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.lesson-btn {
+  background: #d9cf68;
+  color: #1f1717;
+  min-width: 195px;
+  font-weight: 500;
+}
+
+/* lesson page */
+.lesson-card {
+  margin: 30px auto 0;
+  max-width: 820px;
+  background: #f6ecef;
+  border: 2px solid #7f6854;
+  border-radius: 28px;
+  padding: 28px;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(79, 52, 52, 0.08);
+}
+
+.lesson-top {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.detected-pill,
+.lesson-type-pill {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.detected-pill {
+  background: #edd2cf;
+  color: #4a2f2f;
+}
+
+.lesson-type-pill {
+  background: #d8d06f;
+  color: #433818;
+}
+
+.lesson-title {
+  margin: 0 0 18px;
+  font-size: 34px;
+  color: #221919;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.lesson-output {
+  white-space: pre-wrap;
+  background: #fff8fa;
+  border: 1px solid #d7c0c7;
+  border-radius: 18px;
+  padding: 22px;
+  line-height: 1.7;
+  font-size: 18px;
+  color: #2d2424;
+  min-height: 320px;
+}
+
+.lesson-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: flex-end;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  background: #d9cf68;
+  color: #1f1717;
+}
+
+.secondary-btn {
+  background: #e7c2bc;
+  color: #2b1f1f;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 42px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .subtitle {
+    font-size: 18px;
+    padding: 0 10px;
+  }
+
+  .image-box {
+    width: 260px;
+    height: 260px;
+  }
+
+  .detected-box {
+    font-size: 24px;
+    min-height: 74px;
+  }
+
+  .lesson-card {
+    padding: 20px;
+  }
+
+  .lesson-title {
+    font-size: 28px;
+  }
+
+  .lesson-output {
+    font-size: 16px;
+  }
+
+  .horse {
+    font-size: 56px;
+  }
+
+  .boot {
+    font-size: 38px;
   }
 }
