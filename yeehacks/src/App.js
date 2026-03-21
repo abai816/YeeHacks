@@ -157,7 +157,6 @@ Important formatting rules:
 - Use this exact format:
 
 PAGE_TITLE: creative title (e.g. “Hanging Bird Feeder – Upcycling for Greener Garden”)
-THEME: a short theme label
 ABOUT: 2 to 4 sentences explaining the object
 WHY_IT_MATTERS: 2 to 4 sentences
 MATERIALS:
@@ -172,7 +171,6 @@ FUN_FACT: one short fun fact
 
 Rules:
 - Keep it kid-friendly and educational
-- Make the theme creative and short
 `;
 
     const response = await fetch(
@@ -257,6 +255,11 @@ Rules:
         <img src={flowerImg} alt="" className="decor flower" />
         <img src={skinnyHorseImg} alt="" className="decor horse" />
         <img src={cowboyHatImg} alt="" className="hat" />
+        <img src={sunImg} alt="" className="decor sun" />
+        <img src={cloudImg} alt="" className="decor cloud" />
+        <img src={lizardImg} alt="" className="decor lizard" />
+        <img src={tumbleweedShadowImg} alt="" className="decor shadow" />
+        <img src={pairBootsImg} alt="" className="decor pairboots" />
 
         <div className="lesson-page">
           <h1 className="title">Wild Lessons</h1>
