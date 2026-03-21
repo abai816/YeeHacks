@@ -239,7 +239,7 @@ Fun fact:
       <img src={cactusImg} alt="" className="decor cactus" />
       <img src={flowerImg} alt="" className="decor flower" />
       <img src={skinnyHorseImg} alt="" className="decor horse" />
-      <img src={cowboyHatImg} alt="" className="decor hat" />
+      <img src={cowboyHatImg} alt="" className="hat" />
 
       <div className="home-page">
         <h1 className="title">Wild Lessons</h1>

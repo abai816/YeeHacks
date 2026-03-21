@@ -74,8 +74,8 @@ body {
 }
 
 .hat{
-  top: 25px;
-  left: 160px;
+  top: 30px;
+  left: 525px;
   width: 75px;
   transform: rotate(-15deg);
 }
