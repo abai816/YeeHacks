@@ -13,6 +13,7 @@ import skinnyHorseImg from './assets/skinny_horse.png';
 import sunImg from './assets/sun.png';
 import tumbleweedImg from './assets/tumbleweed.png';
 import tumbleweedShadowImg from './assets/tumbleweed_shadow.png';
+import pairBootsImg from './assets/boots_pair.png';
 
 function App() {
   const [page, setPage] = useState("home");
@@ -339,6 +340,11 @@ Rules:
       <img src={flowerImg} alt="" className="decor flower" />
       <img src={skinnyHorseImg} alt="" className="decor horse" />
       <img src={cowboyHatImg} alt="" className="hat" />
+      <img src={sunImg} alt="" className="decor sun" />
+      <img src={cloudImg} alt="" className="decor cloud" />
+      <img src={lizardImg} alt="" className="decor lizard" />
+      <img src={tumbleweedShadowImg} alt="" className="decor shadow" />
+      <img src={pairBootsImg} alt="" className="decor pairboots" />
 
       <div className="home-page">
         <h1 className="title">Wild Lessons</h1>

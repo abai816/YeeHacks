@@ -26,16 +26,17 @@ body {
   position: absolute;
 }
 
-.boot {
+.pairboots {
   top: 25px;
   left: 28px;
-  width: 60px;
+  width: 120px;
 }
 
 .rope {
-  top: 62px;
-  left: 86px;
-  width: 40px;
+  top: 77px;
+  right: 553px;
+  width:45px;
+  transform: scaleX(-1)
 }
 
 .star-one {
@@ -54,26 +55,52 @@ body {
 
 .cactus {
   bottom: 10px;
-  left: 38px;
-  width: 75px;
+  left: 120px;
+  width: 120px;
 }
 
 .flower {
   bottom: 15px;
-  left: 100px;
-  width: 30px;
+  left: 210px;
+  width: 50px;
   height: auto;
   color: #d57fa7;
+}
+
+.sun{
+  bottom: 170px;
+  left: 30px;
+  width: 70px;
+}
+
+.cloud{
+  bottom: 160px;
+  left: 48px;
+  width: 95px;
+}
+
+.lizard{
+  bottom: 10px;
+  right: 45px;
+  width: 85px;
+}
+
+.shadow{
+  bottom: 0;
+  right: 40px;
+  width: 170px;
+  opacity: 0.3;
 }
 
 .horse {
   bottom: 16px;
   right: 35px;
-  width: 100px;
+  width: 180px;
   height: auto;
 }
 
 .hat{
+  position: relative;
   top: 30px;
   left: 525px;
   width: 75px;
