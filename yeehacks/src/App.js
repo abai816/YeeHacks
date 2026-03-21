@@ -157,6 +157,7 @@ Important formatting rules:
 - Use this exact format:
 
 PAGE_TITLE: creative title (e.g. “Hanging Bird Feeder – Upcycling for Greener Garden”)
+THEME: a short theme label
 ABOUT: 2 to 4 sentences explaining the object
 WHY_IT_MATTERS: 2 to 4 sentences
 MATERIALS:
@@ -171,6 +172,10 @@ FUN_FACT: one short fun fact
 
 Rules:
 - Keep it kid-friendly and educational
+- Make the theme creative and short
+- If the chosen type is diy, follow the above steps exactly and for steps, in the first start with: To create a ___, start by...
+- If the chosen type is science lesson, in why it matters, talk about how long it would take to biodegrade, in materials talk about what it is made up of (chemicals, molecules, etc.), and in steps talk about a science experiment to do (on the first step, start with: to do an experiment with this material, start by...)
+- If the chosen type is history lesson, in about, talk about when it was invented, by who, and why, and in materials, talk about what it is made out of, and in steps, talk about how you can responsible reuse or recycle it (on the first step, start with: To recycle this, ...)
 `;
 
     const response = await fetch(
