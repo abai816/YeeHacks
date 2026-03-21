@@ -1,6 +1,6 @@
 # Wild Lessons
 
-Inspiration:
+## Inspiration: ##
 We wanted to find another way to revive items one more time!
 
 What it does:
