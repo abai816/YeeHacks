@@ -173,6 +173,7 @@ FUN_FACT: one short fun fact
 Rules:
 - Keep it kid-friendly and educational
 - Make the theme creative and short
+- Each answer MUST INCLUDE ALL SECTIONS!
 - If the chosen type is diy, follow the above steps exactly and for steps, in the first start with: To create a ___, start by...
 - If the chosen type is science lesson, in why it matters, talk about materials needed for the experiment, and in steps give the steps to complete the science experiment
 - If the chosen type is history lesson, in about, talk about when it was invented, by who, and why, and in materials, talk about what it is made out of, and in steps, talk about how you can responsible reuse or recycle it (on the first step, start with: To recycle this, ...)
