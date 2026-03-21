@@ -3,37 +3,97 @@ import "./App.css";
 import logo from "./tumbleweed.png";
 
 function App() {
+  const [page, setPage] = useState("home");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [lessonPlan, setLessonPlan] = useState(null);
+  const [lessonPlan, setLessonPlan] = useState("");
+  const [lessonType, setLessonType] = useState("");
+  const [detecting, setDetecting] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState("");
 
-  const getGeminiIdeas = async (trashClass) => {
-    const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
-   
-    if (!apiKey) {
-      throw new Error("Missing Gemini API key. Add REACT_APP_GEMINI_API_KEY to your .env file.");
+  const detectTrash = async () => {
+    if (!selectedFile) {
+      setError("Please upload an image first.");
+      return;
     }
+
+    setDetecting(true);
+    setError("");
+    setResult(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      const response = await fetch(
+        "https://florance-blousiest-deetta.ngrok-free.dev/detect",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      console.log("Detection response:", data);
+
+      if (!response.ok) {
+        throw new Error(data?.error || "Detection failed");
+      }
+
+      if (!data?.class) {
+        throw new Error("No detected object returned.");
+      }
+
+      setResult(data);
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Something went wrong during detection.");
+    } finally {
+      setDetecting(false);
+    }
+  };
+
+  const getGeminiIdeas = async (trashClass, chosenType) => {
+    const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+
+    if (!apiKey) {
+      throw new Error(
+        "Missing Gemini API key. Add REACT_APP_GEMINI_API_KEY to your .env file."
+      );
+    }
+
+    const themeMap = {
+      diy: "DIY craft project",
+      science: "science lesson",
+      history: "history lesson",
+    };
 
     const prompt = `
 A student found a discarded ${trashClass}.
 
-Create a fun lesson plan based on ONE of these themes:
-- science
-- DIY craft
-- history
+Create a ${themeMap[chosenType]} about this object.
 
-Pick the theme that best fits the object.
+Requirements:
+- Match the lesson specifically to a ${chosenType} theme
+- Give it a creative title
+- Briefly explain what the object is
+- Explain why reusing or recycling it matters
+- List materials needed
+- Provide 3 to 5 clear steps
+- Include one fun fact
+- Keep the tone fun, kid-friendly, and educational
 
-Include:
-- a title
-- the chosen theme
-- a short explanation of what the object is
-- why reusing or recycling it matters
-- materials needed
-- 3 to 5 steps
-- one fun fact
+Format exactly like this:
 
-Format clearly with labels.
+Title:
+Theme:
+About the object:
+Why it matters:
+Materials:
+Steps:
+Fun fact:
 `;
 
     const response = await fetch(
@@ -64,88 +124,184 @@ Format clearly with labels.
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      throw new Error("Gemini returned no lesson plan text");
+      throw new Error("Gemini returned no lesson text.");
     }
 
     return text;
   };
 
-  const detectTrash = async (imageFile) => {
-    setLoading(true);
-    setResult(null);
-    setLessonPlan(null);
+  const handleGenerateLesson = async (type) => {
+    if (!result?.class) {
+      setError("Please detect an object first.");
+      return;
+    }
+
+    setGenerating(true);
+    setError("");
+    setLessonPlan("");
+    setLessonType(type);
 
     try {
-      const formData = new FormData();
-      formData.append("image", imageFile);
-
-      const response = await fetch(
-        "https://florance-blousiest-deetta.ngrok-free.dev/detect",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-      console.log("Detection response:", data);
-
-      if (!response.ok) {
-        throw new Error(data?.error || "Detection failed");
-      }
-
-      if (!data?.class) {
-        throw new Error("Detector did not return an object class");
-      }
-
-      setResult(data);
-
-      const generatedLessonPlan = await getGeminiIdeas(data.class);
-      setLessonPlan(generatedLessonPlan);
-    } catch (error) {
-      console.error("App error:", error);
-      setLessonPlan(`Lesson plan error: ${error.message}`);
+      const generatedLesson = await getGeminiIdeas(result.class, type);
+      setLessonPlan(generatedLesson);
+      setPage("lesson");
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Something went wrong while generating the lesson.");
     } finally {
-      setLoading(false);
+      setGenerating(false);
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setSelectedFile(file);
+    setImagePreview(URL.createObjectURL(file));
+    setResult(null);
+    setLessonPlan("");
+    setError("");
+  };
+
+  const lessonHeadingMap = {
+    diy: "DIY Project",
+    science: "Science Lesson",
+    history: "History Lesson",
+  };
+
+  if (page === "lesson") {
+    return (
+      <div className="app page-bg">
+        <div className="decor boot">🤠</div>
+        <div className="decor star star-one">✸</div>
+        <div className="decor flower">✿</div>
+        <div className="decor horse">🐎</div>
+
+        <div className="lesson-page">
+          <h1 className="title">Wild Lessons</h1>
+          <p className="subtitle">
+            Your recyclable has been transformed into a learning adventure.
+          </p>
+
+          <div className="lesson-card">
+            <div className="lesson-top">
+              <span className="detected-pill">
+                Detected: {result?.class || "Unknown object"}
+              </span>
+              <span className="lesson-type-pill">
+                {lessonHeadingMap[lessonType]}
+              </span>
+            </div>
+
+            <h2 className="lesson-title">{lessonHeadingMap[lessonType]}</h2>
+
+            <div className="lesson-output">
+              {lessonPlan || "No lesson generated yet."}
+            </div>
+
+            <div className="lesson-actions">
+              <button className="secondary-btn" onClick={() => setPage("home")}>
+                Back
+              </button>
+              <button
+                className="primary-btn"
+                onClick={() => handleGenerateLesson(lessonType)}
+                disabled={generating}
+              >
+                {generating ? "Regenerating..." : "Regenerate"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="App">
-      <h1>Trash Detector</h1>
+    <div className="app page-bg">
+      <div className="decor boot">👢</div>
+      <div className="decor rope">➰</div>
+      <div className="decor star star-one">✸</div>
+      <div className="decor star star-two">✸</div>
+      <div className="decor cactus">🌵</div>
+      <div className="decor flower">✿</div>
+      <div className="decor horse">🐎</div>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) {
-            detectTrash(file);
-          }
-        }}
-      />
+      <div className="home-page">
+        <h1 className="title">Wild Lessons</h1>
+        <p className="subtitle">
+          Upload an image of your recyclable to generate a response on how you
+          can re-purpose your object!
+        </p>
 
-      {/* Loading overlay with rotating image */}
-      {loading && (
-        <div className="loading-overlay">
-          <img src={logo} alt="Loading..." className="spinner" />
-          <p>Howdy!</p>
+        <div className="main-layout">
+          <div className="image-box">
+            {imagePreview ? (
+              <img src={imagePreview} alt="Uploaded recyclable" className="preview-image" />
+            ) : (
+              <span className="image-placeholder">(image)</span>
+            )}
+          </div>
+
+          <div className="controls-column">
+            <label className="upload-btn">
+              Upload Image
+              <input type="file" accept="image/*" onChange={handleFileChange} hidden />
+            </label>
+
+            <button
+              className="detect-btn"
+              onClick={detectTrash}
+              disabled={detecting || !selectedFile}
+            >
+              {detecting ? "Detecting..." : "Detect Image"}
+            </button>
+
+            <div className="detected-box">
+              {result?.class ? result.class : "No object detected yet"}
+            </div>
+          </div>
         </div>
-      )}
- 
-      {result && (
-        <div>
-          <p>Detected: {result.class}</p>
-          <p>Confidence: {result.confidence}%</p>
+
+        {result && (
+          <div className="confidence-text">Confidence: {result.confidence}%</div>
+        )}
+
+        {error && <div className="error-text">{error}</div>}
+
+        <div className="lesson-buttons">
+          <button
+            className="lesson-btn"
+            onClick={() => handleGenerateLesson("diy")}
+            disabled={!result || generating}
+          >
+            {generating && lessonType === "diy"
+              ? "Generating..."
+              : "Generate DIY Project"}
+          </button>
+
+          <button
+            className="lesson-btn"
+            onClick={() => handleGenerateLesson("science")}
+            disabled={!result || generating}
+          >
+            {generating && lessonType === "science"
+              ? "Generating..."
+              : "Generate Science Lesson"}
+          </button>
+
+          <button
+            className="lesson-btn"
+            onClick={() => handleGenerateLesson("history")}
+            disabled={!result || generating}
+          >
+            {generating && lessonType === "history"
+              ? "Generating..."
+              : "Generate History Lesson"}
+          </button>
         </div>
-      )}
- 
-      {lessonPlan && (
-        <div>
-          <h2>Lesson Plan</h2>
-          <p style={{ whiteSpace: "pre-wrap" }}>{lessonPlan}</p>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
