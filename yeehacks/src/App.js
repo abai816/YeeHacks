@@ -253,6 +253,12 @@ Rules:
  if (page === "lesson") {
     return (
       <div className="app page-bg">
+        {generating && (
+          <div className="tumbleweed-overlay">
+            <img src={tumbleweedImg} alt="Loading..." className="tumbleweed-spinner" />
+            <p>Creating lesson plan...</p>
+          </div>
+        )}
         <img src={lassoImg} alt="" className="decor rope" />
         <div className="decor star star-one">✸</div>
         <div className="decor star star-two">✸</div>
@@ -341,6 +347,12 @@ Rules:
 
   return (
     <div className="app page-bg">
+      {generating && (
+        <div className="tumbleweed-overlay">
+          <img src={tumbleweedImg} alt="Loading..." className="tumbleweed-spinner" />
+          <p>Creating lesson plan…</p>
+        </div>
+      )}
       <img src={lassoImg} alt="" className="decor rope" />
       <div className="decor star star-one">✸</div>
       <div className="decor star star-two">✸</div>
