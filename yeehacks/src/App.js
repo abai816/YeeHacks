@@ -1,5 +1,18 @@
 import { useState } from "react";
 import "./App.css";
+import bootImg from './assets/boot.png';
+import cactusImg from './assets/cactus.png';
+import cloudImg from './assets/cloud.png';
+import cowboyHatImg from './assets/cowboy_hat.png';
+import fatHorseImg from './assets/fat_horse.png';
+import flowerImg from './assets/flower.png';
+import lassoImg from './assets/lasso.png';
+import lizardImg from './assets/lizard.png';
+import sheriffStarImg from './assets/sherriff_star.png';
+import skinnyHorseImg from './assets/skinny_horse.png';
+import sunImg from './assets/sun.png';
+import tumbleweedImg from './assets/tumbleweed.png';
+import tumbleweedShadowImg from './assets/tumbleweed_shadow.png';
 
 function App() {
   const [page, setPage] = useState("home");
@@ -172,10 +185,10 @@ Fun fact:
   if (page === "lesson") {
     return (
       <div className="app page-bg">
-        <div className="decor boot">🤠</div>
+        <img src={bootImg} alt="" className="decor boot" />
         <div className="decor star star-one">✸</div>
-        <div className="decor flower">✿</div>
-        <div className="decor horse">🐎</div>
+        <img src={flowerImg} alt="" className="decor flower" />
+        <img src={fatHorseImg} alt="" className="decor horse" />
 
         <div className="lesson-page">
           <h1 className="title">Wild Lessons</h1>
@@ -219,13 +232,14 @@ Fun fact:
 
   return (
     <div className="app page-bg">
-      <div className="decor boot">👢</div>
-      <div className="decor rope">➰</div>
+      <img src={bootImg} alt="" className="decor boot" />
+      <img src={lassoImg} alt="" className="decor rope" />
       <div className="decor star star-one">✸</div>
       <div className="decor star star-two">✸</div>
-      <div className="decor cactus">🌵</div>
-      <div className="decor flower">✿</div>
-      <div className="decor horse">🐎</div>
+      <img src={cactusImg} alt="" className="decor cactus" />
+      <img src={flowerImg} alt="" className="decor flower" />
+      <img src={skinnyHorseImg} alt="" className="decor horse" />
+      <img src={cowboyHatImg} alt="" className="decor hat" />
 
       <div className="home-page">
         <h1 className="title">Wild Lessons</h1>

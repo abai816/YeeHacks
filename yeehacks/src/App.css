@@ -24,22 +24,18 @@ body {
 /* decorative elements */
 .decor {
   position: absolute;
-  user-select: none;
-  pointer-events: none;
-  opacity: 0.95;
 }
 
 .boot {
-  top: 18px;
+  top: 25px;
   left: 28px;
-  font-size: 48px;
+  width: 60px;
 }
 
 .rope {
   top: 62px;
   left: 86px;
-  font-size: 28px;
-  transform: rotate(20deg);
+  width: 40px;
 }
 
 .star-one {
@@ -57,22 +53,31 @@ body {
 }
 
 .cactus {
-  bottom: 22px;
+  bottom: 10px;
   left: 38px;
-  font-size: 58px;
+  width: 75px;
 }
 
 .flower {
-  bottom: 40px;
-  left: 85px;
-  font-size: 22px;
+  bottom: 15px;
+  left: 100px;
+  width: 30px;
+  height: auto;
   color: #d57fa7;
 }
 
 .horse {
   bottom: 16px;
   right: 35px;
-  font-size: 72px;
+  width: 100px;
+  height: auto;
+}
+
+.hat{
+  top: 25px;
+  left: 160px;
+  width: 75px;
+  transform: rotate(-15deg);
 }
 
 .home-page,
