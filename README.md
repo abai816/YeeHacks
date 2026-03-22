@@ -1,7 +1,7 @@
 # Wild Lessons
 
 ## Inspiration: ##
-We wanted to find another way to revive items one more time!
+We wanted to find another way to revive items one more time! Every day, people in the United States throw away millions of tons of waste, even though up to 75% of it could be reused or recycled. Despite this, only about one-third actually gets recycled. Inspired by this problem, we wanted to find creative ways to give everyday items a second life instead of letting them go to waste.
 
 ## What it does: ##
 The user can upload a photo of the item they wish to repurpose. The website will then identify the item, and the user can select whether they want a science project made using the item, a DIY project with the item, or a history lesson on how this item came to be. The science project provide the user with the background of the project, materials needed, and the steps to recreate. The DIY project presents the use, materials needed, and the instructions to do-it-yourself at home. The history lesson will give context on how the item became widely used and how it is made.
